@@ -14,17 +14,21 @@ Change the db secret credentials
  * __Database name is set by default to `mautic`__
 
 Then use the `mysql.secret.yaml` file to store the cerds in the Kubernetes secret engine:
+
 `kubectl apply -f mysql.secret.yaml`
 
 ## Step 3: Set up Mautic
 
 First use the `mautic.deployment.yaml` file to deploy the manifest:
+
 `kubectl apply -f mautic.deployment.yaml`
 
 Then, expose the service on Port 80:
+
 `kubectl apply -f mautic.service.yaml`
 
 Finally, link your service to the desired domain name through the `mautic.ingress.yaml`
+
 `kubectl apply -f mautic.ingress.yaml`
 
 ## Step 4: View your site!
