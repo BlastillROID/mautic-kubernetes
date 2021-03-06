@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mautic 
+  namespace: placeholder
+  labels:
+    app: mautic 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mautic 
+  template:
+    metadata:
+      labels:
+        app: mautic 
+    spec:
+      containers:
+        - image: mautic/mautic 
+          name: mautic
+          resources:
+            limits:
+              memory: 384Mi
+            requests:
+              memory: 384Mi
+          ports:
+            - containerPort: 80
+              name: mautic
+          env:
+          - name: MAUTIC_DB_HOST
+            valueFrom:
+                secretKeyRef:
+                  name: mautic-db-creds
+                  key: mysql-db-url
+          - name: MAUTIC_DB_NAME
+            valueFrom:
+                secretKeyRef:
+                  name: mautic-db-creds
+                  key: mysql-db-name
+          - name: MAUTIC_DB_USER
+            valueFrom:
+                secretKeyRef:
+                  name: mautic-db-creds
+                  key: mysql-username
+          - name: MAUTIC_DB_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: mautic-db-creds
+                  key: mysql-password
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            httpGet:
+              path: /s/login
+              port: 80

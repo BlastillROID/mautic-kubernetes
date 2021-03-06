@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mautic-service
+  namespace: placeholder
+  annotations:
+    prometheus.io/scrape: 'true'
+  labels:
+    app: mautic
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 80
+  selector:
+    app: mautic 
